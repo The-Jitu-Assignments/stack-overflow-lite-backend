@@ -3,12 +3,9 @@ const bcrypt = require('bcrypt');
 const sql = require('mssql');
 const sqlConfig = require('../../config/index');
 
-console.log(sqlConfig);
-
 exports.signup = async (req, res) => {
   try {
     const pool = await sql.connect(sqlConfig);
-    console.log(pool)
     const { name, email, password } = req.body; 
 
     if (!name || !email || !password) {
