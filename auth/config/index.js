@@ -1,8 +1,7 @@
-const { DB_USER, DB_PASSWORD, DB_NAME,DB_SERVER } = process.env;
-
 const dotenv = require('dotenv');
-dotenv.config;
+dotenv.config();
 
+const { DB_USER, DB_PASSWORD, DB_NAME, DB_SERVER } = process.env;
 
 const sqlConfig = {
   user: DB_USER,
