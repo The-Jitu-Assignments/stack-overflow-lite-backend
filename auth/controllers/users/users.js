@@ -5,16 +5,17 @@ const sqlConfig = require('../../config/index');
 
 exports.signup = async (req, res) => {
   try {
-    const pool = await sql.connect(sqlConfig);
     const { name, email, password } = req.body; 
-
+    
     if (!name || !email || !password) {
       return res.status(400).json({
         msg: 'Please provide all details'
       })
     };
-
+    
     const hashedPassword = await bcrypt.hash(password, 8);
+
+    const pool = await sql.connect(sqlConfig);
 
     await pool.request()
       .input('id', v4())
@@ -35,8 +36,13 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ msg: 'Please Provide all details' })
+    }
     const pool = await sql.connect(sqlConfig);
-    
+
   } catch (error) {
     
   }
