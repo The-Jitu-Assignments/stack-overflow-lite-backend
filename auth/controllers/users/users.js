@@ -33,4 +33,11 @@ exports.signup = async (req, res) => {
   }
 };
 
-exports.login = async () => {};
+exports.login = async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    
+  } catch (error) {
+    
+  }
+};
