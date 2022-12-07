@@ -7,6 +7,6 @@ const router = Router();
 router.post('/', verifyToken, questionsController.createQuestion);
 router.get('/', questionsController.getQuestions);
 router.get('/:id', questionsController.getQuestion);
-router.delete('/:questionId', verifyToken, questionsController.deleteQuestion);
+router.delete('/:id', verifyToken, questionsController.deleteQuestion);
 
 module.exports = router

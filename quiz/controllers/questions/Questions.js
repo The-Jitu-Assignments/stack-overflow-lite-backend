@@ -5,13 +5,13 @@ const { v4 } = require('uuid');
 exports.createQuestion = async (req, res) => {
   try {
     const { question } = req.body;
-    const { id } = req.user;
+    const { currentUser } = req.user;
 
     const pool = await sql.connect(sqlConfig);
 
     await pool.request()
       .input('id', v4())
-      .input('userId', id)
+      .input('userId', currentUser)
       .input('question', question)
     .execute('usp_createOrUpdateQuestion');
 
@@ -79,19 +79,17 @@ exports.getQuestion = async (req, res) => {
 
 exports.deleteQuestion = async (req, res) => {
   try {
-    const { questionId } = req.params;
+    const { id } = req.params;
 
-    const { id } = req.user;
+    const { currentUser } = req.user;
 
     const pool = await sql.connect(sqlConfig);
 
-    console.log(pool);
-
-    const question = await (await pool.request().input('id', questionId).execute('usp_getQuestion')).recordset[0];
+    const question = await (await pool.request().input('id', id).execute('usp_getQuestion')).recordset[0];
 
     const { userId } = question;
 
-    if (id !== userId) {
+    if (currentUser !== userId) {
       return res.status(401).json({
         msg: 'Not allowed to delete the question'
       })
