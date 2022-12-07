@@ -5,5 +5,6 @@ const { verifyToken } = require('../../middleware/verifyToken');
 const router = Router();
 
 router.post('/', verifyToken, questionsController.createQuestion);
+router.get('/', questionsController.getQuestions);
 
 module.exports = router
