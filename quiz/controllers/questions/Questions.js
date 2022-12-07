@@ -47,3 +47,32 @@ exports.getQuestions = async (req, res) => {
     })
   }
 }
+
+exports.getQuestion = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const pool = await sql.connect(sqlConfig);
+
+    const question = await 
+      (
+        await pool.request()
+          .input('id', id)
+        .execute('usp_getQuestion')
+      ).recordset[0];
+
+      if (question) {
+        return res.status(200).json({
+          data: question
+        })
+      } else {
+        return res.status(404).json({
+          msg: `Question with an id of ${id} is not found`
+        })
+      };
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
+}
