@@ -4,7 +4,8 @@ const { SECRET_KEY } = process.env;
 
 exports.verifyToken = async (req, res, next) => {
   try {
-    const token = req.headers['token'];
+    const tokenHeader = req.headers.authorization;
+    const token = tokenHeader.split(' ')[1];
     if (!token) {
       return res.status(401).json({
         msg: 'You are not authorized'
