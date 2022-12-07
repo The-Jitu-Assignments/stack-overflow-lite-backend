@@ -85,6 +85,8 @@ exports.deleteQuestion = async (req, res) => {
 
     const pool = await sql.connect(sqlConfig);
 
+    console.log(pool);
+
     const question = await (await pool.request().input('id', questionId).execute('usp_getQuestion')).recordset[0];
 
     const { userId } = question;

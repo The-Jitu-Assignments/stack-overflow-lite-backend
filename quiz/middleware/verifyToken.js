@@ -5,12 +5,12 @@ const { SECRET_KEY } = process.env;
 exports.verifyToken = async (req, res, next) => {
   try {
     const tokenHeader = req.headers.authorization;
-    const token = tokenHeader.split(' ')[1];
-    if (!token) {
+    if (!tokenHeader) {
       return res.status(401).json({
         msg: 'You are not authorized'
       })
     }
+    const token = tokenHeader.split(' ')[1];
     const decodedData = jwt.verify(token, SECRET_KEY);
     req.user = decodedData;
   } catch (error) {
