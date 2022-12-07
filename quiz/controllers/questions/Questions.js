@@ -75,4 +75,40 @@ exports.getQuestion = async (req, res) => {
       msg: error
     })
   }
+};
+
+exports.deleteQuestion = async (req, res) => {
+  try {
+    const { questionId } = req.params;
+
+    const { id } = req.user;
+
+    const pool = await sql.connect(sqlConfig);
+
+    const question = await (await pool.request().input('id', questionId).execute('usp_getQuestion')).recordset[0];
+
+    const { userId } = question;
+
+    if (id !== userId) {
+      return res.status(401).json({
+        msg: 'Not allowed to delete the question'
+      })
+    };
+
+    if (question) {
+      await pool.request().input('id', id).execute('usp_deleteAQuestion');
+
+      return res.status(200).json({
+        msg: 'Question deleted successfully'
+      })
+    } else {
+      return res.status(404).json({
+        msg: `Question with an id of ${id} is not found`
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
 }
