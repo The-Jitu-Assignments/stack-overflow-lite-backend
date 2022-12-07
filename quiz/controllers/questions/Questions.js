@@ -23,4 +23,27 @@ exports.createQuestion = async (req, res) => {
       msg: error
     })
   }
+};
+
+exports.getQuestions = async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const questions = await pool.request().execute('usp_getAllQuestions');
+
+    if (questions.length > 0) {
+      return res.status(200).json({
+        msg: 'Questions Fetched successfully',
+        data: questions
+      })
+    } else {
+      return res.status(404).json({
+        msg: 'Currently their are no questions',
+        data: []
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
 }
