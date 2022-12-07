@@ -3,8 +3,8 @@ CREATE OR ALTER PROC usp_createOrUpdateAnswer(
   @userId VARCHAR(255),
   @questionId VARCHAR(255),
   @comment TEXT,
-  @accepted INT,
-  @isLiked INT
+  @accepted INT = 0,
+  @isLiked INT = 0
 )
 AS
 BEGIN
