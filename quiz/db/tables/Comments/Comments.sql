@@ -1,0 +1,6 @@
+CREATE TABLE Comments(
+  id VARCHAR(255) PRIMARY KEY,
+  userId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
+  answerId VARCHAR(255) FOREIGN KEY REFERENCES Answers(id),
+  comment TEXT
+)
