@@ -18,7 +18,7 @@ exports.addComment = async (req, res) =>  {
     .execute('usp_createOrUpdateComment');
 
     return res.status(201).json({
-      msg: 'Comment updated successfully'
+      msg: 'Comment added successfully'
     });
   } catch (error) {
     return res.status(500).json({
