@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const { PORT } = process.env;
 const questionsRoutes = require('./routes/questions/Questions');
 const answersRoutes = require('./routes/answers/Answers');
+const commentsRoutes = require('./routes/comments/Comments');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/question', questionsRoutes);
 app.use('/answer', answersRoutes);
+app.use('/comment', commentsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Quiz service is running on port: ${PORT}`)
