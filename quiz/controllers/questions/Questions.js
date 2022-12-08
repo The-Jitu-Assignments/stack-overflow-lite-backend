@@ -119,7 +119,7 @@ exports.getMyQuestions = async (req, res) => {
     const pool = await sql.connect(sqlConfig);
 
     const questions = await (await pool.request()
-      .input('id', currentUser)
+      .input('userId', currentUser)
     .execute('usp_findMyQuestions')).recordset;
 
     if (questions.length > 0) {
