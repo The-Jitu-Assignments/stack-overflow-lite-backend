@@ -111,3 +111,30 @@ exports.deleteQuestion = async (req, res) => {
     })
   }
 }
+
+exports.getMyQuestions = async (req, res) => {
+  try {
+    const { currentUser } = req.user;
+
+    const pool = await sql.connect(sqlConfig);
+
+    const questions = await (await pool.request()
+      .input('id', currentUser)
+    .execute('usp_findMyQuestions')).recordset;
+
+    if (questions.length > 0) {
+      return res.status(200).json({
+        msg: 'Questions fetched successfully',
+        data: questions
+      })
+    } else {
+      return res.status(404).json({
+        data: []
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
+}
