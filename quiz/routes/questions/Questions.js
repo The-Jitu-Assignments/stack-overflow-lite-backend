@@ -6,6 +6,7 @@ const router = Router();
 
 router.post('/', verifyToken, questionsController.createQuestion);
 router.get('/', questionsController.getQuestions);
+router.get('/myQuestions', verifyToken, questionsController.getMyQuestions);
 router.get('/:id', questionsController.getQuestion);
 router.delete('/:id', verifyToken, questionsController.deleteQuestion);
 
