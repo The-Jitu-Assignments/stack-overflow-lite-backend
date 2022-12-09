@@ -2,7 +2,7 @@ const sql = require('mssql');
 const sqlConfig = require('../../config');
 const { v4 } = require('uuid');
 
-exports.addLike = async (req, res) => {
+exports.updateLikeDislike = async (req, res) => {
   try {
     const { answerId, total } = req.body;
     const { currentUser } = req.user;
@@ -24,4 +24,6 @@ exports.addLike = async (req, res) => {
       msg: error
     })
   }
-}
+};
+
+// exports.addDislike = async ()
