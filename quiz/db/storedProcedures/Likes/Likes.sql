@@ -1,12 +1,3 @@
-CREATE TABLE LikeTable (
-  id VARCHAR(255) PRIMARY KEY,
-  answerId VARCHAR(255) FOREIGN KEY REFERENCES Answers(id),
-  userId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
-  likes INT DEFAULT 0,
-);
-
-DROP TABLE LikeTable
-
 CREATE OR ALTER PROC usp_addLike (
   @id VARCHAR (255),
   @answerId VARCHAR(255),
