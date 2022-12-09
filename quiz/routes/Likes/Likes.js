@@ -5,6 +5,6 @@ const { verifyToken } = require('../../middleware/verifyToken');
 
 console.log(verifyToken)
 
-router.post('/', verifyToken, likesController.addLike);
+router.post('/', verifyToken, likesController.updateLikeDislike);
 
 module.exports = router;
