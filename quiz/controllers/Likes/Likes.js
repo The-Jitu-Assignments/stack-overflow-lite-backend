@@ -5,7 +5,7 @@ const { v4 } = require('uuid');
 exports.addLike = async (req, res) => {
   try {
     const { answerId, likes } = req.body;
-    const { currentUser } = req.info;
+    const { currentUser } = req.user;
 
     const pool = await sql.connect(sqlConfig);
 
