@@ -14,7 +14,7 @@ exports.addLike = async (req, res) => {
       .input('answerId', answerId)
       .input('userId', currentUser)
       .input('likes', likes)
-    .execute('usp_addLike');
+    .execute('usp_likeDislike');
 
     return res.status(201).json({
       msg: 'Like added successfully'
