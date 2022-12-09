@@ -137,4 +137,28 @@ exports.getMyQuestions = async (req, res) => {
       msg: error
     })
   }
+};
+
+exports.findQuestions = async (req, res) => {
+  try {
+    const { value } = req.body;
+
+    const pool = await sql.connect(sqlConfig);
+
+    const questions = await (await pool.request().input('value', value).execute('usp_searchQuestion')).recordset
+
+    if (questions.length > 0) {
+      return res.status(200).json({
+        data: questions
+      })
+    } else {
+      return res.status(404).json({
+        data: []
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
 }
