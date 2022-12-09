@@ -1,6 +1,7 @@
 CREATE TABLE DislikeTable (
-  id VARCHAR(255) PRIMARY KEY,
+  id VARCHAR(255),
   answerId VARCHAR(255) FOREIGN KEY REFERENCES Answers(id),
   userId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
-  disLikes INT DEFAULT 0
+  disLikes INT DEFAULT 0,
+  CONSTRAINT PK_Dislike PRIMARY KEY (answerId, userId)
 )
