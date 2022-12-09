@@ -1,0 +1,5 @@
+CREATE OR ALTER PROC usp_getAllLikes
+AS
+BEGIN
+  SELECT * FROM LikeTable;
+END;
