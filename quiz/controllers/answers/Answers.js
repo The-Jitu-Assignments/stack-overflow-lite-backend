@@ -2,6 +2,12 @@ const { v4 } = require('uuid');
 const sql = require('mssql');
 const sqlConfig = require('../../config');
 
+const DbConnect = require('../../helpers/dbHelper');
+
+const { DbConnection } = DbConnect;
+
+const { execute } = new DbConnection();
+
 exports.addAnswer = async (req, res) => {
   try {
     const { questionId, comment } = req.body;
