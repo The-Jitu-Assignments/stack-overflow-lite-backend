@@ -6,7 +6,7 @@ const DbConnect = require('../../helpers/dbHelper');
 
 const { DbConnection } = DbConnect;
 
-const exec = new DbConnection();
+const { execute } = new DbConnection();
 
 exports.createQuestion = async (req, res) => {
   try {
