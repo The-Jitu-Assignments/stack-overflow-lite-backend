@@ -1,7 +1,7 @@
 const sql = require('mssql');
 const sqlConfig = require('../config');
 
-export default class DbConnection {
+class DbConnection {
   constructor() {
     this.pool = this.connectToDb()
   }
@@ -47,3 +47,5 @@ export default class DbConnection {
     return results;
   }
 }
+
+exports.DbConnection = DbConnection;

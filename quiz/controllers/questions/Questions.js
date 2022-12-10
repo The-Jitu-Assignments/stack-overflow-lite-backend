@@ -2,6 +2,8 @@ const sql = require('mssql');
 const sqlConfig = require('../../config');
 const { v4 } = require('uuid');
 
+const { execute } = require('../../helpers/dbHelper');
+
 exports.createQuestion = async (req, res) => {
   try {
     const { question } = req.body;
