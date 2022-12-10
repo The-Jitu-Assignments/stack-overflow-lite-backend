@@ -15,7 +15,7 @@ exports.createQuestion = async (req, res) => {
 
     const id = v4();
 
-    await exec.execute('usp_createOrUpdateQuestion', { id, userId: currentUser, question });
+    await execute('usp_createOrUpdateQuestion', { id, userId: currentUser, question });
 
     return res.status(201).json({
       msg: 'Question Created Successfully'
