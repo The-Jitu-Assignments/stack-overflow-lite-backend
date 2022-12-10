@@ -33,17 +33,6 @@ exports.updateAnswer = async (req, res) => {
 
     const { questionId, comment, accepted, isLiked } = req.body;
 
-    // const pool = await sql.connect(sqlConfig);
-
-    // await pool.request()
-    //   .input('id', id)
-    //   .input('userId', currentUser)
-    //   .input('questionId', questionId)
-    //   .input('comment', comment)
-    //   .input('accepted', accepted)
-    //   .input('isLiked', isLiked)
-    // .execute('usp_createOrUpdateAnswer');
-
     await execute('usp_createOrUpdateAnswer', 
       { id, userId: currentUser, questionId, comment, accepted, isLiked }
     );
