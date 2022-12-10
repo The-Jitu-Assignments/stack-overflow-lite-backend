@@ -133,7 +133,9 @@ exports.findQuestions = async (req, res) => {
 
     const pool = await sql.connect(sqlConfig);
 
-    const questions = await (await pool.request().input('value', value).execute('usp_searchQuestion')).recordset
+    // const questions = await (await pool.request().input('value', value).execute('usp_searchQuestion')).recordset
+
+    const questions = await (await execute('usp_searchQuestion', { value })).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
