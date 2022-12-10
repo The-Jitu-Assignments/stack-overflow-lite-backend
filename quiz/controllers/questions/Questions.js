@@ -8,22 +8,12 @@ const { DbConnection } = DbConnect;
 
 const exec = new DbConnection();
 
-// console.log(method1.execute())
-
 exports.createQuestion = async (req, res) => {
   try {
     const { question } = req.body;
     const { currentUser } = req.user;
 
     const id = v4();
-
-    // const pool = await sql.connect(sqlConfig);
-
-    // await pool.request()
-    //   .input('id', v4())
-    //   .input('userId', currentUser)
-    //   .input('question', question)
-    // .execute('usp_createOrUpdateQuestion');
 
     await exec.execute('usp_createOrUpdateQuestion', { id, userId: currentUser, question });
 
