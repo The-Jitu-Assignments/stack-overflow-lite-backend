@@ -79,7 +79,9 @@ exports.deleteQuestion = async (req, res) => {
 
     const pool = await sql.connect(sqlConfig);
 
-    const question = await (await pool.request().input('id', id).execute('usp_getQuestion')).recordset[0];
+    // const question = await (await pool.request().input('id', id).execute('usp_getQuestion')).recordset[0];
+
+    const question = await (await exec.execute('usp_getQuestion', { id })).recordset[0];
 
     if (question) {
       const { userId } = question;
@@ -88,7 +90,8 @@ exports.deleteQuestion = async (req, res) => {
           msg: 'Not allowed to delete the question'
         })
       } else {
-        await pool.request().input('id', id).execute('usp_deleteAQuestion');
+        // await pool.request().input('id', id).execute('usp_deleteAQuestion');
+        await exec.execute('usp_deleteAQuestion', { id });
 
         return res.status(200).json({
           msg: 'Question deleted successfully'
