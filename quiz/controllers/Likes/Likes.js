@@ -25,5 +25,3 @@ exports.updateLikeDislike = async (req, res) => {
     })
   }
 };
-
-// exports.addDislike = async ()
