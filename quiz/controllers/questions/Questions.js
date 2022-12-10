@@ -29,9 +29,6 @@ exports.createQuestion = async (req, res) => {
 
 exports.getQuestions = async (req, res) => {
   try {
-    const pool = await sql.connect(sqlConfig);
-    // const questions = await (await pool.request().execute('usp_getAllQuestions')).recordset;
-
     const questions = await (await exec.execute('usp_getAllQuestions')).recordset;
 
     if (questions.length > 0) {
