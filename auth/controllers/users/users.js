@@ -25,16 +25,7 @@ exports.signup = async (req, res) => {
     
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    await execute('usp_signup', { id, name, email, password: hashedPassword })
-
-    // const pool = await sql.connect(sqlConfig);
-
-    // await pool.request()
-    //   .input('id', v4())
-    //   .input('name', name)
-    //   .input('email', email)
-    //   .input('password', hashedPassword)
-    // .execute('usp_signup');
+    await execute('usp_signup', { id, name, email, password: hashedPassword });
 
     return res.status(200).json({
       msg: 'User created successfully'
@@ -54,13 +45,15 @@ exports.login = async (req, res) => {
       return res.status(400).json({ msg: 'Please Provide all details' })
     }
 
-    const pool = await sql.connect(sqlConfig);
+    // const pool = await sql.connect(sqlConfig);
 
-    const getUser = await pool.request()
-      .input('email', email)
-    .execute('usp_getUser');
+    // const getUser = await pool.request()
+    //   .input('email', email)
+    // .execute('usp_getUser');
 
-    const user = getUser.recordset[0];
+    // const user = getUser.recordset[0];
+
+    const user = await (await execute('usp_getUser', { email })).recordset[0];
 
     if (user) {
       const checkPassword = await bcrypt.compare(password, user.password);
