@@ -1,21 +1,18 @@
-const sql = require('mssql');
 const { v4 } = require('uuid');
-const sqlConfig = require('../../config');
+
+const DbConnect = require('../../helpers/dbHelper');
+
+const { DbConnection } = DbConnect;
+
+const { execute } = new DbConnection();
 
 exports.addComment = async (req, res) =>  {
   try {
     const { answerId, comment } = req.body;
-
     const { currentUser } = req.user;
+    const { id } = v4();
 
-    const pool = await sql.connect(sqlConfig);
-
-    await pool.request()
-      .input('id', v4())
-      .input('userId', currentUser)
-      .input('answerId', answerId)
-      .input('comment', comment)
-    .execute('usp_createOrUpdateComment');
+    await execute('usp_createOrUpdateComment', { id, userId: currentUser, answerId, comment });
 
     return res.status(201).json({
       msg: 'Comment added successfully'

@@ -1,19 +1,19 @@
-const sql = require('mssql');
-const sqlConfig = require('../../config');
 const { v4 } = require('uuid');
+
+const DbConnect = require('../../helpers/dbHelper');
+
+const { DbConnection } = DbConnect;
+
+const { execute } = new DbConnection();
 
 exports.createQuestion = async (req, res) => {
   try {
     const { question } = req.body;
     const { currentUser } = req.user;
 
-    const pool = await sql.connect(sqlConfig);
+    const id = v4();
 
-    await pool.request()
-      .input('id', v4())
-      .input('userId', currentUser)
-      .input('question', question)
-    .execute('usp_createOrUpdateQuestion');
+    await execute('usp_createOrUpdateQuestion', { id, userId: currentUser, question });
 
     return res.status(201).json({
       msg: 'Question Created Successfully'
@@ -27,8 +27,7 @@ exports.createQuestion = async (req, res) => {
 
 exports.getQuestions = async (req, res) => {
   try {
-    const pool = await sql.connect(sqlConfig);
-    const questions = await (await pool.request().execute('usp_getAllQuestions')).recordset;
+    const questions = await (await execute('usp_getAllQuestions')).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
@@ -52,14 +51,7 @@ exports.getQuestion = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const pool = await sql.connect(sqlConfig);
-
-    const question = await 
-      (
-        await pool.request()
-          .input('id', id)
-        .execute('usp_getQuestion')
-      ).recordset[0];
+    const question = await (await execute('usp_getQuestion', { id })).recordset[0];
 
       if (question) {
         return res.status(200).json({
@@ -83,9 +75,7 @@ exports.deleteQuestion = async (req, res) => {
 
     const { currentUser } = req.user;
 
-    const pool = await sql.connect(sqlConfig);
-
-    const question = await (await pool.request().input('id', id).execute('usp_getQuestion')).recordset[0];
+    const question = await (await execute('usp_getQuestion', { id })).recordset[0];
 
     if (question) {
       const { userId } = question;
@@ -94,7 +84,7 @@ exports.deleteQuestion = async (req, res) => {
           msg: 'Not allowed to delete the question'
         })
       } else {
-        await pool.request().input('id', id).execute('usp_deleteAQuestion');
+        await execute('usp_deleteAQuestion', { id });
 
         return res.status(200).json({
           msg: 'Question deleted successfully'
@@ -116,11 +106,7 @@ exports.getMyQuestions = async (req, res) => {
   try {
     const { currentUser } = req.user;
 
-    const pool = await sql.connect(sqlConfig);
-
-    const questions = await (await pool.request()
-      .input('userId', currentUser)
-    .execute('usp_findMyQuestions')).recordset;
+    const questions = await (await execute('usp_findMyQuestions', { userId: currentUser })).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
@@ -141,11 +127,9 @@ exports.getMyQuestions = async (req, res) => {
 
 exports.findQuestions = async (req, res) => {
   try {
-    const { value } = req.body;
+    const { value } = req.query;
 
-    const pool = await sql.connect(sqlConfig);
-
-    const questions = await (await pool.request().input('value', value).execute('usp_searchQuestion')).recordset
+    const questions = await (await execute('usp_searchQuestion', { value })).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
@@ -165,11 +149,9 @@ exports.findQuestions = async (req, res) => {
 
 exports.getMostAnsweredQn = async (req, res) => {
   try {
-    const { range } = req.body;
+    const { range } = req.query; 
 
-    const pool = await sql.connect(sqlConfig);
-
-    const questions = await (await pool.request().input('range', range).execute('usp_mostAnsweredQuestion')).recordset;
+    const questions = await (await execute('usp_mostAnsweredQuestion', { range })).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
