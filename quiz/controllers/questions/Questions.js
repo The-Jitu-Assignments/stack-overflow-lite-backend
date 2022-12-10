@@ -1,5 +1,3 @@
-const sql = require('mssql');
-const sqlConfig = require('../../config');
 const { v4 } = require('uuid');
 
 const DbConnect = require('../../helpers/dbHelper');
