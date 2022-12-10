@@ -167,6 +167,8 @@ exports.getMostAnsweredQn = async (req, res) => {
   try {
     const { range } = req.query;
 
+    console.log(range)
+
     const pool = await sql.connect(sqlConfig);
 
     const questions = await (await pool.request().input('range', range).execute('usp_mostAnsweredQuestion')).recordset;
