@@ -6,6 +6,12 @@ const sqlConfig = require('../../config/index');
 const { SECRET_KEY } = process.env;
 const dotenv = require('dotenv').config();
 
+const DbConnect = require('../../helpers/dbHelper');
+
+const { DbConnection } = DbConnect;
+
+const { execute } = new DbConnection();
+
 exports.signup = async (req, res) => {
   try {
     const { name, email, password } = req.body; 
