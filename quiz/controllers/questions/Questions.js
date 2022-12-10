@@ -108,12 +108,6 @@ exports.getMyQuestions = async (req, res) => {
   try {
     const { currentUser } = req.user;
 
-    const pool = await sql.connect(sqlConfig);
-
-    // const questions = await (await pool.request()
-    //   .input('userId', currentUser)
-    // .execute('usp_findMyQuestions')).recordset;
-
     const questions = await (await execute('usp_findMyQuestions', { userId: currentUser })).recordset;
 
     if (questions.length > 0) {
