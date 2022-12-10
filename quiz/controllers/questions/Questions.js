@@ -165,7 +165,8 @@ exports.findQuestions = async (req, res) => {
 
 exports.getMostAnsweredQn = async (req, res) => {
   try {
-    const { range } = req.body;
+    const { range } = req.params;
+    // const { range } = req.body;
 
     const pool = await sql.connect(sqlConfig);
 
