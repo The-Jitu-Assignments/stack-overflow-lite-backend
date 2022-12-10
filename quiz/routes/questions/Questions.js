@@ -10,7 +10,7 @@ router.get('/myQuestions', verifyToken, questionsController.getMyQuestions);
 router.get('/:id', questionsController.getQuestion);
 router.delete('/:id', verifyToken, questionsController.deleteQuestion);
 router.get('/quiz/searchQn', questionsController.findQuestions);
-router.get('/qn/mostAnsweredQn', questionsController.getMostAnsweredQn);
+router.get('/quiz/mostAnsweredQn', questionsController.getMostAnsweredQn);
 
 
 module.exports = router
