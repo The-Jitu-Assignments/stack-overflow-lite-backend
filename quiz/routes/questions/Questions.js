@@ -9,5 +9,6 @@ router.get('/', questionsController.getQuestions);
 router.get('/myQuestions', verifyToken, questionsController.getMyQuestions);
 router.get('/:id', questionsController.getQuestion);
 router.delete('/:id', verifyToken, questionsController.deleteQuestion);
+router.post('/searchQn', questionsController.findQuestions);
 
 module.exports = router
