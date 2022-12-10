@@ -45,14 +45,6 @@ exports.login = async (req, res) => {
       return res.status(400).json({ msg: 'Please Provide all details' })
     }
 
-    // const pool = await sql.connect(sqlConfig);
-
-    // const getUser = await pool.request()
-    //   .input('email', email)
-    // .execute('usp_getUser');
-
-    // const user = getUser.recordset[0];
-
     const user = await (await execute('usp_getUser', { email })).recordset[0];
 
     if (user) {
