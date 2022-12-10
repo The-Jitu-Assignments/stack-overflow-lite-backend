@@ -10,5 +10,7 @@ router.get('/myQuestions', verifyToken, questionsController.getMyQuestions);
 router.get('/:id', questionsController.getQuestion);
 router.delete('/:id', verifyToken, questionsController.deleteQuestion);
 router.post('/searchQn', questionsController.findQuestions);
+router.get('/mostAnsweredQn/:range', questionsController.getMostAnsweredQn);
+
 
 module.exports = router
