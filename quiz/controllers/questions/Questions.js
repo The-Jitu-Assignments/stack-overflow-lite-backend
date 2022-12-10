@@ -141,7 +141,7 @@ exports.getMyQuestions = async (req, res) => {
 
 exports.findQuestions = async (req, res) => {
   try {
-    const { value } = req.body;
+    const { value } = req.query;
 
     const pool = await sql.connect(sqlConfig);
 
