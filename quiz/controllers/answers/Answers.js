@@ -12,17 +12,7 @@ exports.addAnswer = async (req, res) => {
   try {
     const { questionId, comment } = req.body;
     const { currentUser } = req.user;
-
-    const pool = await sql.connect(sqlConfig);
-
     const id = v4();
-
-    // await pool.request()
-    //   .input('id', v4())
-    //   .input('userId', currentUser)
-    //   .input('questionId', questionId)
-    //   .input('comment', comment)
-    // .execute('usp_createOrUpdateAnswer');
 
     await execute('usp_createOrUpdateAnswer', { id, userId: currentUser, questionId, comment});
 
