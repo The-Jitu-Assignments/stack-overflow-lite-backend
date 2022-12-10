@@ -15,12 +15,16 @@ exports.addAnswer = async (req, res) => {
 
     const pool = await sql.connect(sqlConfig);
 
-    await pool.request()
-      .input('id', v4())
-      .input('userId', currentUser)
-      .input('questionId', questionId)
-      .input('comment', comment)
-    .execute('usp_createOrUpdateAnswer');
+    const id = v4();
+
+    // await pool.request()
+    //   .input('id', v4())
+    //   .input('userId', currentUser)
+    //   .input('questionId', questionId)
+    //   .input('comment', comment)
+    // .execute('usp_createOrUpdateAnswer');
+
+    await execute('usp_createOrUpdateAnswer', { id, userId: currentUser, questionId, comment});
 
     return res.status(201).json({
       msg: 'Answer added successfully'
