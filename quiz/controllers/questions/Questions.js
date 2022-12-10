@@ -155,7 +155,9 @@ exports.getMostAnsweredQn = async (req, res) => {
 
     const pool = await sql.connect(sqlConfig);
 
-    const questions = await (await pool.request().input('range', range).execute('usp_mostAnsweredQuestion')).recordset;
+    // const questions = await (await pool.request().input('range', range).execute('usp_mostAnsweredQuestion')).recordset;
+
+    const questions = await (await execute('usp_mostAnsweredQuestion', { range })).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
