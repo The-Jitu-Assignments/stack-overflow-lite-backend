@@ -9,7 +9,7 @@ router.get('/', questionsController.getQuestions);
 router.get('/myQuestions', verifyToken, questionsController.getMyQuestions);
 router.get('/:id', questionsController.getQuestion);
 router.delete('/:id', verifyToken, questionsController.deleteQuestion);
-router.get('/searchQn', questionsController.findQuestions);
+router.get('/quiz/searchQn', questionsController.findQuestions);
 router.get('/qn/mostAnsweredQn', questionsController.getMostAnsweredQn);
 
 
