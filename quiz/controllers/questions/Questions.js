@@ -53,7 +53,7 @@ exports.getQuestion = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const question = await (await exec.execute('usp_getQuestion', { id })).recordset[0];
+    const question = await (await execute('usp_getQuestion', { id })).recordset[0];
 
       if (question) {
         return res.status(200).json({
