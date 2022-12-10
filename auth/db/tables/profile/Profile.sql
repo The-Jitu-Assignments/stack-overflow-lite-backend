@@ -1,0 +1,8 @@
+CREATE TABLE Profile(
+  id VARCHAR(255) PRIMARY KEY,
+  userId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
+  phone VARCHAR(255),
+  address VARCHAR(255),
+  github VARCHAR(255),
+  imgUrl TEXT
+)
