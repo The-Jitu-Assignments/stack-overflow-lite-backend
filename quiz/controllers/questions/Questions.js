@@ -2,20 +2,30 @@ const sql = require('mssql');
 const sqlConfig = require('../../config');
 const { v4 } = require('uuid');
 
-const { execute } = require('../../helpers/dbHelper');
+const DbConnect = require('../../helpers/dbHelper');
+
+const { DbConnection } = DbConnect;
+
+const exec = new DbConnection();
+
+// console.log(method1.execute())
 
 exports.createQuestion = async (req, res) => {
   try {
     const { question } = req.body;
     const { currentUser } = req.user;
 
-    const pool = await sql.connect(sqlConfig);
+    const id = v4();
 
-    await pool.request()
-      .input('id', v4())
-      .input('userId', currentUser)
-      .input('question', question)
-    .execute('usp_createOrUpdateQuestion');
+    // const pool = await sql.connect(sqlConfig);
+
+    // await pool.request()
+    //   .input('id', v4())
+    //   .input('userId', currentUser)
+    //   .input('question', question)
+    // .execute('usp_createOrUpdateQuestion');
+
+    await exec.execute('usp_createOrUpdateQuestion', { id, userId: currentUser, question });
 
     return res.status(201).json({
       msg: 'Question Created Successfully'
