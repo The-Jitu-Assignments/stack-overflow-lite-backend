@@ -12,7 +12,6 @@ class DbConnection {
       return pool;
     } catch (error) {
       return error.message;
-      // throw new Error(error.message);
     }
   }
 
@@ -40,11 +39,6 @@ class DbConnection {
     } catch (error) {
       return error.message;
     }
-  }
-
-  query = async (query) => {
-    const results = await (await this.pool).request().query(query);
-    return results;
   }
 }
 
