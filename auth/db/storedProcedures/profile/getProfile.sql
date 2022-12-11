@@ -1,5 +1,5 @@
-CREATE OR ALTER PROC usp_getUserProfile(@id VARCHAR(255))
+CREATE OR ALTER PROC usp_getUserProfile(@userId VARCHAR(255))
 AS
 BEGIN
-  SELECT * FROM Profile WHERE id = @id;
+  SELECT * FROM Profile WHERE userId = @userId;
 END;
