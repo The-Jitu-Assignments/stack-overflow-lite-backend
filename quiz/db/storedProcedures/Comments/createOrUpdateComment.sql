@@ -2,8 +2,7 @@ CREATE OR ALTER PROC usp_createOrUpdateComment(
   @id VARCHAR(255),
   @userId VARCHAR(255),
   @answerId VARCHAR(255),
-  @comment TEXT,
-  @date DATETIME
+  @comment TEXT
 )
 AS
 BEGIN

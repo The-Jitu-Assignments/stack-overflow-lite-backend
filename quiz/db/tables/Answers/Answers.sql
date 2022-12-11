@@ -3,6 +3,6 @@ CREATE TABLE Answers (
   userId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
   questionId VARCHAR(255) FOREIGN KEY REFERENCES Questions(id),
   comment TEXT,
+  date DATETIME,
   accepted INT DEFAULT 0,
-  isLiked INT DEFAULT 0
 );
