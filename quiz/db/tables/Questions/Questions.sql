@@ -2,4 +2,5 @@ CREATE TABLE Questions (
   id VARCHAR(255) PRIMARY KEY,
   userId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
   question TEXT,
+  date DATETIME
 );

@@ -2,7 +2,8 @@ CREATE OR ALTER PROC usp_createOrUpdateComment(
   @id VARCHAR(255),
   @userId VARCHAR(255),
   @answerId VARCHAR(255),
-  @comment TEXT
+  @comment TEXT,
+  @date DATETIME
 )
 AS
 BEGIN
@@ -11,6 +12,6 @@ BEGIN
       comment = @comment
     WHERE id = @id
   ELSE
-    INSERT INTO Comments (id, userId, answerId, comment)
-    VALUES (@id, @userId, @answerId, @comment)
+    INSERT INTO Comments (id, userId, answerId, comment, date)
+    VALUES (@id, @userId, @answerId, @comment, GETDATE())
 END;
