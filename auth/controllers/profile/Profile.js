@@ -20,4 +20,28 @@ exports.createProfile = async (req, res) => {
       msg: error
     })
   }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const profile = await (await execute('usp_getUserProfile', { userId })).recordset[0];
+
+    if (profile) {
+      return res.status(200).json({
+        msg: 'Fetched profile successfully',
+        data: profile
+      })
+    } else {
+      return res.status(404).json({
+        msg: `User with an id of ${userId} is not found`
+      })
+    }
+
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
 }
