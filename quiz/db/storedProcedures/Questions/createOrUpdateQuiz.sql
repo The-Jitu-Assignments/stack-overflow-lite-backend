@@ -11,6 +11,6 @@ IF EXISTS (SELECT * FROM Questions WHERE id = @id)
 WHERE id = @id
 ELSE 
   INSERT INTO Questions
-    (id, userId, question)
-  VALUES (@id, @userId, @question)
+    (id, userId, question, date)
+  VALUES (@id, @userId, @question, GETDATE())
 END;

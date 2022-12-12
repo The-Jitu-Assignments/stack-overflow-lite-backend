@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const likesController = require('../../controllers/Likes/Likes');
+const likesController = require('../../controllers/likesDislikes/LikesDislikes');
 const { verifyToken } = require('../../middleware/verifyToken');
 
 router.post('/', verifyToken, likesController.updateLikeDislike);

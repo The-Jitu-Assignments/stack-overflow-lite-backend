@@ -5,7 +5,7 @@ const { PORT } = process.env;
 const questionsRoutes = require('./routes/questions/Questions');
 const answersRoutes = require('./routes/answers/Answers');
 const commentsRoutes = require('./routes/comments/Comments');
-const likesRoutes = require('./routes/Likes/Likes');
+const likesRoutes = require('./routes/likesDislikes/LikesDislikes');
 
 const app = express();
 

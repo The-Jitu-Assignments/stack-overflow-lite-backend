@@ -29,10 +29,10 @@ exports.updateAnswer = async (req, res) => {
     const { id } = req.params;
     const { currentUser } = req.user;
 
-    const { questionId, comment, accepted, isLiked } = req.body;
+    const { questionId, comment, accepted } = req.body;
 
     await execute('usp_createOrUpdateAnswer', 
-      { id, userId: currentUser, questionId, comment, accepted, isLiked }
+      { id, userId: currentUser, questionId, comment, accepted }
     );
 
     return res.status(200).json({

@@ -1,16 +1,28 @@
-CREATE OR ALTER PROC usp_addLike (
-  @id VARCHAR (255),
-  @answerId VARCHAR(255),
+CREATE OR ALTER PROC usp_likeDislike(
+  @id VARCHAR(255),
   @userId VARCHAR(255),
-  @likes INT = 0
+  @answerId VARCHAR(255),
+  @total INT = 0
 )
 AS
 BEGIN
-  IF EXISTS (SELECT * FROM LikeTable WHERE id = @id)
-    UPDATE LikeTable SET
-      likes = 0
-    WHERE id = @id
+
+  DECLARE @exists BIT
+
+  SELECT @exists = count(id) from likeDislikes WHERE userId = @userId AND answerId = @answerId and total=@total
+  
+  if @exists > 0
+    BEGIN
+      DELETE FROM likeDislikes WHERE userId = @userId AND answerId = @answerId
+    END
   ELSE
-    INSERT INTO LikeTable (id, answerId, userId, likes)
-    VALUES (@id, @answerId, @userId, @likes)
-END;
+    BEGIN
+      IF EXISTS (SELECT * FROM likeDislikes WHERE userId = @userId AND answerId = @answerId)
+        UPDATE likeDislikes SET
+          total = @total
+        WHERE userId = @userId AND answerId = @answerId
+      ELSE
+        INSERT INTO likeDislikes (id, userId, answerId, total)
+        VALUES (@id, @userId, @answerId, @total)
+      END;
+END
