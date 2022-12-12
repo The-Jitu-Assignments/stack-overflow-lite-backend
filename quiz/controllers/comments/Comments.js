@@ -10,7 +10,7 @@ exports.addComment = async (req, res) =>  {
   try {
     const { answerId, comment } = req.body;
     const { currentUser } = req.user;
-    const { id } = v4();
+    const id = v4();
 
     await execute('usp_createOrUpdateComment', { id, userId: currentUser, answerId, comment });
 
