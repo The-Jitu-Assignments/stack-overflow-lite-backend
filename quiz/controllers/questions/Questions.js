@@ -29,10 +29,20 @@ exports.getQuestions = async (req, res) => {
   try {
     const questions = await (await execute('usp_getAllQuestions')).recordset;
 
+    let newData = questions.map(qn => {
+      let todaysDate = new Date();
+      let qnDate = qn.date;
+      let diffTime = Math.ceil((todaysDate - qnDate) / (1000 * 60 * 60 * 24))
+      return {
+        ...qn,
+        days: `${diffTime > 1 ? `${diffTime} days`: `${diffTime} day`}`
+      }
+    });
+
     if (questions.length > 0) {
       return res.status(200).json({
         msg: 'Questions Fetched successfully',
-        data: questions
+        data: newData
       })
     } else {
       return res.status(404).json({
