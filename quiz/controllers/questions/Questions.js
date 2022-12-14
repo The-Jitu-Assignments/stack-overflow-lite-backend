@@ -1,10 +1,10 @@
-const { v4 } = require('uuid');
-
 const DbConnect = require('../../helpers/dbHelper');
-
+const { getDays } = require('../../helpers/getDays');
+const { v4 } = require('uuid');
 const { DbConnection } = DbConnect;
-
 const { execute } = new DbConnection();
+
+// console.log(getDays)
 
 exports.createQuestion = async (req, res) => {
   try {
@@ -29,16 +29,20 @@ exports.getQuestions = async (req, res) => {
   try {
     const questions = await (await execute('usp_getAllQuestions')).recordset;
 
-    let newData = questions.map(qn => {
-      questionId = qn.id;
-      let todaysDate = new Date();
-      let qnDate = qn.date;
-      let diffTime = Math.ceil((todaysDate - qnDate) / (1000 * 60 * 60 * 24))
-      return {
-        ...qn,
-        days: `${diffTime > 1 ? `${diffTime} days`: `${diffTime} day`}`
-      }
-    });
+    // let newData = questions.map(qn => {
+    //   questionId = qn.id;
+    //   let todaysDate = new Date();
+    //   let qnDate = qn.date;
+    //   let diffTime = Math.ceil((todaysDate - qnDate) / (1000 * 60 * 60 * 24))
+    //   return {
+    //     ...qn,
+    //     days: `${diffTime > 1 ? `${diffTime} days`: `${diffTime} day`}`
+    //   }
+    // });
+
+    let newData = getDays(questions);
+
+    console.log(newData)
 
     if (questions.length > 0) {
       return res.status(200).json({
