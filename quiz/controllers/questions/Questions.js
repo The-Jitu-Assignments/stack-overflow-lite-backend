@@ -29,20 +29,7 @@ exports.getQuestions = async (req, res) => {
   try {
     const questions = await (await execute('usp_getAllQuestions')).recordset;
 
-    // let newData = questions.map(qn => {
-    //   questionId = qn.id;
-    //   let todaysDate = new Date();
-    //   let qnDate = qn.date;
-    //   let diffTime = Math.ceil((todaysDate - qnDate) / (1000 * 60 * 60 * 24))
-    //   return {
-    //     ...qn,
-    //     days: `${diffTime > 1 ? `${diffTime} days`: `${diffTime} day`}`
-    //   }
-    // });
-
     let newData = getDays(questions);
-
-    console.log(newData)
 
     if (questions.length > 0) {
       return res.status(200).json({
@@ -70,11 +57,13 @@ exports.getQuestion = async (req, res) => {
 
     const answers = await (await execute('usp_getAnswersOfAQuiz', { questionId: id })).recordset;
 
+    let newData = getDays(answers);
+
     if (question) {
       return res.status(200).json({
         data: {
           question: question,
-          answers: answers
+          answers: newData
         }
       })
     } else {
