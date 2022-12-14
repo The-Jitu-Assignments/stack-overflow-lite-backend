@@ -22,14 +22,23 @@ exports.signup = async (req, res) => {
         msg: 'Please provide all details'
       })
     };
+
+    const user = await (await execute('usp_getUser', { email })).recordset[0];
+
+    if (user) {
+      return res.status(400).json({
+        msg: 'user already exists'
+      })
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 8);
+  
+      await execute('usp_signup', { id, name, email, password: hashedPassword });
+  
+      return res.status(200).json({
+        msg: 'User created successfully'
+      })
+    }
     
-    const hashedPassword = await bcrypt.hash(password, 8);
-
-    await execute('usp_signup', { id, name, email, password: hashedPassword });
-
-    return res.status(200).json({
-      msg: 'User created successfully'
-    })
   } catch (error) {
     return res.status(500).json({
       msg: error
