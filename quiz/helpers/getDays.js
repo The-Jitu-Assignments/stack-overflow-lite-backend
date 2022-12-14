@@ -9,13 +9,3 @@ exports.getDays = (data) => {
     }
   })
 }
-
-// let newData = questions.map(qn => {
-//       questionId = qn.id;
-//       let todaysDate = new Date();
-//       let qnDate = qn.date;
-//       let diffTime = Math.ceil((todaysDate - qnDate) / (1000 * 60 * 60 * 24))
-//       return {
-//         ...qn,
-        
-//       }
