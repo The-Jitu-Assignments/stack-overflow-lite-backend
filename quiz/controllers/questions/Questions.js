@@ -1,10 +1,10 @@
-const { v4 } = require('uuid');
-
 const DbConnect = require('../../helpers/dbHelper');
-
+const { getDays } = require('../../helpers/getDays');
+const { v4 } = require('uuid');
 const { DbConnection } = DbConnect;
-
 const { execute } = new DbConnection();
+
+// console.log(getDays)
 
 exports.createQuestion = async (req, res) => {
   try {
@@ -29,10 +29,12 @@ exports.getQuestions = async (req, res) => {
   try {
     const questions = await (await execute('usp_getAllQuestions')).recordset;
 
+    let newData = getDays(questions);
+
     if (questions.length > 0) {
       return res.status(200).json({
         msg: 'Questions Fetched successfully',
-        data: questions
+        data: newData
       })
     } else {
       return res.status(404).json({
@@ -53,15 +55,22 @@ exports.getQuestion = async (req, res) => {
 
     const question = await (await execute('usp_getQuestion', { id })).recordset[0];
 
-      if (question) {
-        return res.status(200).json({
-          data: question
-        })
-      } else {
-        return res.status(404).json({
-          msg: `Question with an id of ${id} is not found`
-        })
-      };
+    const answers = await (await execute('usp_getAnswersOfAQuiz', { questionId: id })).recordset;
+
+    let newData = getDays(answers);
+
+    if (question) {
+      return res.status(200).json({
+        data: {
+          question: question,
+          answers: newData
+        }
+      })
+    } else {
+      return res.status(404).json({
+        msg: `Question with an id of ${id} is not found`
+      })
+    };
   } catch (error) {
     return res.status(500).json({
       msg: error

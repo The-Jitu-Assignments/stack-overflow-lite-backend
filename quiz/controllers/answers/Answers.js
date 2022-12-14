@@ -12,7 +12,7 @@ exports.addAnswer = async (req, res) => {
     const { currentUser } = req.user;
     const id = v4();
 
-    await execute('usp_createOrUpdateAnswer', { id, userId: currentUser, questionId, comment});
+    await execute('usp_createOrUpdateAnswer', { id, userId: currentUser, questionId, comment });
 
     return res.status(201).json({
       msg: 'Answer added successfully'
