@@ -30,6 +30,7 @@ exports.getQuestions = async (req, res) => {
     const questions = await (await execute('usp_getAllQuestions')).recordset;
 
     let newData = questions.map(qn => {
+      questionId = qn.id;
       let todaysDate = new Date();
       let qnDate = qn.date;
       let diffTime = Math.ceil((todaysDate - qnDate) / (1000 * 60 * 60 * 24))
@@ -63,15 +64,20 @@ exports.getQuestion = async (req, res) => {
 
     const question = await (await execute('usp_getQuestion', { id })).recordset[0];
 
-      if (question) {
-        return res.status(200).json({
-          data: question
-        })
-      } else {
-        return res.status(404).json({
-          msg: `Question with an id of ${id} is not found`
-        })
-      };
+    const answers = await (await execute('usp_getAnswersOfAQuiz', { questionId: id })).recordset;
+
+    if (question) {
+      return res.status(200).json({
+        data: {
+          question: question,
+          answers: answers
+        }
+      })
+    } else {
+      return res.status(404).json({
+        msg: `Question with an id of ${id} is not found`
+      })
+    };
   } catch (error) {
     return res.status(500).json({
       msg: error
