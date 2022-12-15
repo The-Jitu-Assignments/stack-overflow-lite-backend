@@ -84,13 +84,7 @@ exports.getMyDetails = async (req, res) => {
   try {
     const { currentUser } = req.user;
 
-    console.log(currentUser)
-
-    // let user = await (await execute('usp_getMyDetails', { id: currentUser })).recordset[0]
-
-    const user = await execute('usp_getMyDetails', { id: currentUser });
-
-    console.log(user)
+    let user = await (await execute('usp_getMyDetails', { id: currentUser })).recordset[0];
 
     return res.status(200).json({
       data: user
