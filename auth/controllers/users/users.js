@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
           token
         })
       } else {
-        return res.status(400).json({ msg: 'Password do not match' });
+        return res.status(400).json({ msg: 'The data provided seems to be incorrect' });
       }
     } else {
       return res.status(404).json({ msg: 'User with that email does not exist' });
@@ -78,3 +78,20 @@ exports.login = async (req, res) => {
     })
   }
 };
+
+
+exports.getMyDetails = async (req, res) => {
+  try {
+    const { currentUser } = req.user;
+
+    let user = await (await execute('usp_getMyDetails', { id: currentUser })).recordset[0];
+
+    return res.status(200).json({
+      data: user
+    })
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
+}
