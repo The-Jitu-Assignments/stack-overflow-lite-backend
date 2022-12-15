@@ -1,0 +1,5 @@
+CREATE OR ALTER PROC getMyDetails(@id VARCHAR) 
+AS
+BEGIN 
+  SELECT name FROM Users WHERE id = @id;
+END;
