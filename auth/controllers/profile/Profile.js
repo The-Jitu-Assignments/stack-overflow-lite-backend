@@ -35,7 +35,8 @@ exports.getProfile = async (req, res) => {
       })
     } else {
       return res.status(404).json({
-        msg: `User with an id of ${userId} is not found`
+        msg: `User with an id of ${userId} is not found`,
+        data: []
       })
     }
 
