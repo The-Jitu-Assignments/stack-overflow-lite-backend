@@ -78,3 +78,26 @@ exports.login = async (req, res) => {
     })
   }
 };
+
+
+exports.getMyDetails = async (req, res) => {
+  try {
+    const { currentUser } = req.user;
+
+    console.log(currentUser)
+
+    // let user = await (await execute('usp_getMyDetails', { id: currentUser })).recordset[0]
+
+    const user = await execute('usp_getMyDetails', { id: currentUser });
+
+    console.log(user)
+
+    return res.status(200).json({
+      data: user
+    })
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
+}
