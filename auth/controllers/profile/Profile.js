@@ -28,10 +28,18 @@ exports.getProfile = async (req, res) => {
 
     const profile = await (await execute('usp_getUserProfile', { userId })).recordset[0];
 
+    const totalQuestions = await (await execute('usp_getUserQuestions', { userId })).recordset[0];
+
+    const totalAnswers = await (await execute('usp_getUserAnswers', { userId })).recordset[0];
+
     if (profile) {
       return res.status(200).json({
         msg: 'Fetched profile successfully',
-        data: profile
+        data: {
+          ...profile,
+          ...totalQuestions,
+          ...totalAnswers
+        }
       })
     } else {
       return res.status(404).json({
