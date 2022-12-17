@@ -1,6 +1,7 @@
 const { v4 } = require('uuid');
 
 const DbConnect = require('../../helpers/dbHelper');
+const { getDays } = require('../../helpers/getDays');
 
 const { DbConnection } = DbConnect;
 
@@ -38,6 +39,35 @@ exports.updateAnswer = async (req, res) => {
     return res.status(200).json({
       msg: 'Answer Updated successfully'
     })
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
+}
+
+exports.getAnswer = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const answer = await (await execute('usp_getAnswer', { answerId: id })).recordset[0];
+
+    const comments = await (await execute('usp_getComments', {answerId: id })).recordset;
+
+    let newData = getDays(comments);
+
+    if (answer) {
+      return res.status(200).json({
+        data: {
+          answer,
+          comments: newData
+        }
+      })
+    } else {
+      return res.status(404).json({
+        msg: `Answer with an id of ${id} is not found`
+      })
+    }
   } catch (error) {
     return res.status(500).json({
       msg: error
