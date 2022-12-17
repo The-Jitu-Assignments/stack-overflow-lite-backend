@@ -191,4 +191,25 @@ exports.getMostAnsweredQn = async (req, res) => {
       msg: error
     })
   }
+};
+
+exports.getRecentQuestions = async (req, res) => {
+  try {
+    const questions = await (await execute('usp_getMostRecentQuizes')).recordset;
+
+    if (questions) {
+      return res.status(200).json({
+        msg: 'Questions fetched successfully',
+        data: questions
+      })
+    } else {
+      return res.status(404).json({
+        msg: 'Not questions were found'
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
 }
