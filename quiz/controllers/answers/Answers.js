@@ -44,3 +44,25 @@ exports.updateAnswer = async (req, res) => {
     })
   }
 }
+
+exports.getAnswer = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const answer = await (await execute('usp_getAnswer', { answerId: id })).recordset[0];
+
+    if (answer) {
+      return res.status(200).json({
+        data: answer
+      })
+    } else {
+      return res.status(404).json({
+        msg: `Answer with an id of ${id} is not found`
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      msg: error
+    })
+  }
+}
