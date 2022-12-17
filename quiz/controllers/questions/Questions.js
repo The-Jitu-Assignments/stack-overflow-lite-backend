@@ -197,10 +197,12 @@ exports.getRecentQuestions = async (req, res) => {
   try {
     const questions = await (await execute('usp_getMostRecentQuizes')).recordset;
 
+    let data = getDays(questions);
+
     if (questions) {
       return res.status(200).json({
         msg: 'Questions fetched successfully',
-        data: questions
+        data
       })
     } else {
       return res.status(404).json({
