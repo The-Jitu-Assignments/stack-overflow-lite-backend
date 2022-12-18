@@ -164,10 +164,6 @@ exports.findQuestions = async (req, res) => {
 
 exports.getMostAnsweredQn = async (req, res) => {
   try {
-    // const { range } = req.query; 
-
-    // const questions = await (await execute('usp_mostAnsweredQuestion', { range })).recordset;
-
     const questions = await (await execute('usp_mostAnsweredQuestion')).recordset;
     
     if (questions.length > 0) {
@@ -177,9 +173,11 @@ exports.getMostAnsweredQn = async (req, res) => {
 
       const filteredData = allQuestions.filter(question => qnFilter.includes(question.id));
 
+      const data = getDays(filteredData)
+
       return res.status(200).json({
         msg: 'Questions fetched successfully',
-        data: filteredData
+        data
       })
     } else {
       return res.status(404).json({
