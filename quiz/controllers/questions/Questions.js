@@ -123,10 +123,12 @@ exports.getMyQuestions = async (req, res) => {
 
     const questions = await (await execute('usp_findMyQuestions', { userId: id })).recordset;
 
+    const data = getDays(questions);
+
     if (questions.length > 0) {
       return res.status(200).json({
         msg: 'Questions fetched successfully',
-        data: questions
+        data
       })
     } else {
       return res.status(404).json({
