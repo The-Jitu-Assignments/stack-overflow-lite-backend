@@ -119,9 +119,9 @@ exports.deleteQuestion = async (req, res) => {
 
 exports.getMyQuestions = async (req, res) => {
   try {
-    const { currentUser } = req.user;
+    const { id } = req.params;
 
-    const questions = await (await execute('usp_findMyQuestions', { userId: currentUser })).recordset;
+    const questions = await (await execute('usp_findMyQuestions', { userId: id })).recordset;
 
     if (questions.length > 0) {
       return res.status(200).json({
@@ -146,9 +146,11 @@ exports.findQuestions = async (req, res) => {
 
     const questions = await (await execute('usp_searchQuestion', { value })).recordset;
 
+    let data = getDays(questions)
+
     if (questions.length > 0) {
       return res.status(200).json({
-        data: questions
+        data
       })
     } else {
       return res.status(404).json({
