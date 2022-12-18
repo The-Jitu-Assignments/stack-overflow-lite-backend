@@ -13,11 +13,17 @@ exports.updateLikeDislike = async (req, res) => {
 
     const id = v4();
 
-    await execute('usp_likeDislike', { id, userId: currentUser, answerId, total })
+    await execute('usp_likeDislike', { id, userId: currentUser, answerId, total });
 
-    return res.status(201).json({
-      msg: 'Like added successfully'
-    })
+    if (total === 1) {
+      return res.status(201).json({
+        msg: 'Like added successfully'
+      })
+    } else {
+      return res.status(201).json({
+        msg: 'Dislike added successfully'
+      })
+    }
   } catch (error) {
     return res.status(500).json({
       msg: error
