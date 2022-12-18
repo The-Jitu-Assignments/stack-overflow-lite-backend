@@ -6,5 +6,5 @@ BEGIN
     (select count(a.questionId) from Answers a WHERE a.questionId = q.id) totalAns
     FROM Questions q LEFT JOIN Profile p 
     ON q.userId = p.userId LEFT JOIN Users u 
-  ON u.id = q.userId LEFT JOIN Answers a ON a.questionId = q.id;
+  ON u.id = q.userId
 END;
