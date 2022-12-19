@@ -185,8 +185,6 @@ exports.getMostAnsweredQn = async (req, res) => {
 
       const data = getDays(filteredData)
 
-      console.log(data)
-
       return res.status(200).json({
         msg: 'Questions fetched successfully',
         data

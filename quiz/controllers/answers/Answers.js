@@ -32,6 +32,8 @@ exports.updateAnswer = async (req, res) => {
 
     const { questionId, comment, accepted } = req.body;
 
+    // const question = await (await execute(''))
+
     await execute('usp_createOrUpdateAnswer', 
       { id, userId: currentUser, questionId, comment, accepted }
     );
