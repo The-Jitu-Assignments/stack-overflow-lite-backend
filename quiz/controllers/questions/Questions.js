@@ -33,7 +33,8 @@ exports.createQuestion = async (req, res) => {
 
 exports.getQuestions = async (req, res) => {
   try {
-    const questions = await (await execute('usp_getAllQuestions')).recordset;
+    const { pageSize, pageNumber } = req.query;
+    const questions = await (await execute('usp_getAllQuestions', { pageNumber, pageSize })).recordset;
 
     let newData = getDays(questions);
 
