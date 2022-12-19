@@ -119,14 +119,16 @@ exports.deleteQuestion = async (req, res) => {
 
 exports.getMyQuestions = async (req, res) => {
   try {
-    const { currentUser } = req.user;
+    const { id } = req.params;
 
-    const questions = await (await execute('usp_findMyQuestions', { userId: currentUser })).recordset;
+    const questions = await (await execute('usp_findMyQuestions', { userId: id })).recordset;
+
+    const data = getDays(questions);
 
     if (questions.length > 0) {
       return res.status(200).json({
         msg: 'Questions fetched successfully',
-        data: questions
+        data
       })
     } else {
       return res.status(404).json({
@@ -146,9 +148,11 @@ exports.findQuestions = async (req, res) => {
 
     const questions = await (await execute('usp_searchQuestion', { value })).recordset;
 
+    let data = getDays(questions)
+
     if (questions.length > 0) {
       return res.status(200).json({
-        data: questions
+        data
       })
     } else {
       return res.status(404).json({
@@ -164,10 +168,7 @@ exports.findQuestions = async (req, res) => {
 
 exports.getMostAnsweredQn = async (req, res) => {
   try {
-    const { range } = req.query; 
-
-    const questions = await (await execute('usp_mostAnsweredQuestion', { range })).recordset;
-
+    const questions = await (await execute('usp_mostAnsweredQuestion')).recordset;
     
     if (questions.length > 0) {
       let qnFilter = questions.map(qn => { return qn.id });
@@ -176,9 +177,11 @@ exports.getMostAnsweredQn = async (req, res) => {
 
       const filteredData = allQuestions.filter(question => qnFilter.includes(question.id));
 
+      const data = getDays(filteredData)
+
       return res.status(200).json({
         msg: 'Questions fetched successfully',
-        data: filteredData
+        data
       })
     } else {
       return res.status(404).json({
