@@ -12,6 +12,12 @@ exports.addComment = async (req, res) =>  {
     const { currentUser } = req.user;
     const id = v4();
 
+    if (!comment) {
+      return res.status(400).json({
+        msg: 'You cannot add an empty comment'
+      })
+    }
+
     await execute('usp_createOrUpdateComment', { id, userId: currentUser, answerId, comment });
 
     return res.status(201).json({
