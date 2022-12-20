@@ -204,14 +204,20 @@ exports.getMostAnsweredQn = async (req, res) => {
 
 exports.getRecentQuestions = async (req, res) => {
   try {
-    const questions = await (await execute('usp_getMostRecentQuizes')).recordset;
+    const { pageNumber, pageSize } = req.query;
+    const questions = await (await execute('usp_getMostRecentQuizes', { pageNumber, pageSize })).recordset;
+
+    const total = await (await execute('usp_countQuestions')).recordset[0];
 
     let data = getDays(questions);
 
     if (questions) {
       return res.status(200).json({
         msg: 'Questions fetched successfully',
-        data
+        data: {
+          data,
+          ...total
+        }
       })
     } else {
       return res.status(404).json({
