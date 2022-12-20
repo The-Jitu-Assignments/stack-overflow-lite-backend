@@ -13,6 +13,12 @@ exports.addAnswer = async (req, res) => {
     const { currentUser } = req.user;
     const id = v4();
 
+    if (!comment) {
+      return res.status(400).json({
+        msg: 'You cannot post an empty answer'
+      })
+    }
+
     await execute('usp_createOrUpdateAnswer', { id, userId: currentUser, questionId, comment });
 
     return res.status(201).json({
@@ -31,8 +37,6 @@ exports.updateAnswer = async (req, res) => {
     const { currentUser } = req.user;
 
     const { questionId, comment, accepted } = req.body;
-
-    // const question = await (await execute(''))
 
     await execute('usp_createOrUpdateAnswer', 
       { id, userId: currentUser, questionId, comment, accepted }
