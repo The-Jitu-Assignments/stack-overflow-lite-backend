@@ -33,14 +33,20 @@ exports.createQuestion = async (req, res) => {
 
 exports.getQuestions = async (req, res) => {
   try {
-    const questions = await (await execute('usp_getAllQuestions')).recordset;
+    const { pageSize, pageNumber } = req.query;
+    const questions = await (await execute('usp_getAllQuestions', { pageNumber, pageSize })).recordset;
+
+    const total = await (await execute('usp_countQuestions')).recordset[0];
 
     let newData = getDays(questions);
 
     if (questions.length > 0) {
       return res.status(200).json({
         msg: 'Questions Fetched successfully',
-        data: newData
+        data: {
+          newData,
+          ...total
+        }
       })
     } else {
       return res.status(404).json({
@@ -173,7 +179,7 @@ exports.getMostAnsweredQn = async (req, res) => {
     if (questions.length > 0) {
       let qnFilter = questions.map(qn => { return qn.id });
 
-      const allQuestions = await (await execute('usp_getAllQuestions')).recordset;
+      const allQuestions = await (await execute('usp_getQuestionsFromDB')).recordset;
 
       const filteredData = allQuestions.filter(question => qnFilter.includes(question.id));
 
